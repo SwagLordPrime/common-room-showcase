@@ -1,0 +1,30 @@
+{
+  "protocol": "crew-plan/1",
+  "plan_id": "example-2026-09-24",
+  "title": "Example: tidy the local-model work queue into three drafts",
+  "scope": "orchestra",
+  "tasks": [
+    {
+      "key": "ws-queue",
+      "to": "claude-room",
+      "title": "Workstream: turn the local-model queue into reviewed drafts",
+      "body": "Orchestrator workstream. Delegate each piece below to a worker when ready and paste accepted facts into later pieces.\n1. local-b: list every LOCAL-0x item with its exact input files.\n2. local-a: draft the B&M owner questions (LOCAL-01).\nINPUT: Artifacts/astra-review-2026-09-21/ASTRA/LOCAL_MODEL_WORK_QUEUE_2026-09-21.md\nINPUT: Artifacts/astra-review-2026-09-21/income-inbox/BANDM_QUESTIONNAIRE_RECORD_2026-09-21.md",
+      "acceptance": "Each helper result accepted by a reviewer; the workstream report links them and lists anything still MISSING."
+    },
+    {
+      "key": "memory-checklist",
+      "to": "local-a",
+      "title": "Memory six-feature gap checklist (LOCAL-03)",
+      "body": "Output exactly six rows: feature, installed-code evidence (path:line), runtime evidence missing, smallest next evidence. Write MISSING when the file does not say.\nINPUT: Artifacts/astra-review-2026-09-21/librarian-readiness/P6_MEMORY_FEATURE_LEDGER_2026-09-21.md",
+      "acceptance": "Six rows; every claim cites path:line from the input; nothing invented."
+    },
+    {
+      "key": "reserve",
+      "to": "claude-room",
+      "title": "Reserve: new work inside this plan",
+      "body": "Orchestrator reserve. When Shane's updates add work that fits this plan, delegate it as helper tasks under this task instead of writing a new plan. Helpers may read only the files named here.\nINPUT: Artifacts/astra-review-2026-09-21/ASTRA/LOCAL_MODEL_WORK_QUEUE_2026-09-21.md",
+      "acceptance": "Every helper under it accepted or cancelled; the report lists what was added and why.",
+      "reserve": true
+    }
+  ]
+}

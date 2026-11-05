@@ -1,0 +1,6 @@
+{
+  "server": "https://ntfy.sh",
+  "topic": "CHANGE-ME",
+  "quiet_hours": "23:00-08:00",
+  "batch_minutes": 10
+}

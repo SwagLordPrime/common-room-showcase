@@ -1,0 +1,2 @@
+# Files detected to fail only in parallel are recorded here by fast_tests.py.
+# They run alone after the parallel batch. No baseline files are presumed serial.

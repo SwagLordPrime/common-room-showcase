@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Common Room task message; authenticated identity is outside the body",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "body",
+    "recipient",
+    "authority_id",
+    "kind",
+    "acceptance"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "recipient": {
+      "type": "string"
+    },
+    "authority_id": {
+      "type": "string"
+    },
+    "kind": {
+      "const": "document.count"
+    },
+    "acceptance": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "chain_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "parent_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 80
+    },
+    "refs": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "maxLength": 240
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  },
+  "$comment": "Membership, explicit authority, path resolution, artifact digests, UTF-8 byte size and idempotency are enforced by the runtime beyond this schema.",
+  "$defs": {
+    "review_command_payload": {
+      "title": "review command payload (cr-upgrade core-strikes)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "accepted",
+        "note"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "kind": {
+          "enum": [
+            "substance",
+            "paperwork"
+          ],
+          "$comment": "Optional. Absent means substance. A rejected paperwork review costs no strike until the third on one task; an accepted review ignores the kind."
+        }
+      }
+    },
+    "resolve_decision_command_payload": {
+      "title": "resolve_decision command payload (cr-upgrade core-strikes)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "body"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "refund": {
+          "type": "boolean",
+          "$comment": "Optional. True removes one strike (never below zero) and records the refund; the written reason is body. A task stopped at two strikes may be refunded by its owner only."
+        }
+      }
+    },
+    "stop_all_command_payload": {
+      "title": "stop_all command payload (cr-upgrade core-stop; keeper only)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reason"
+      ],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      }
+    },
+    "resume_all_command_payload": {
+      "title": "resume_all command payload (cr-upgrade core-stop; keeper only)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "$comment": "Optional. Absent means \"Resumed by the keeper.\""
+        }
+      }
+    }
+  }
+}

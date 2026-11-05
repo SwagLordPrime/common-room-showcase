@@ -1,0 +1,11 @@
+{
+ "version": 1,
+ "seat_tiers": {
+  "claude-room": "opus",
+  "claude-code": "opus",
+  "claude-code-b": "sonnet",
+  "ferrule": "sonnet",
+  "crew-audit": "sonnet",
+  "vesper": "opus"
+ }
+}

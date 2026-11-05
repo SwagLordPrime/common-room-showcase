@@ -1,0 +1,41 @@
+{
+  "protocol": "gpu-calendar/1",
+  "note": "EXAMPLE. Today's windows copied from crew/local-a.json, with owners filled in. Copy it to the real calendar location, correct the owners, and point each worker's gpu_calendar setting at the copy. Format: GPU_CALENDAR.md.",
+  "windows": [
+    {
+      "days": "weekdays",
+      "start": "08:20",
+      "end": "09:00",
+      "owner": "batch",
+      "label": "BATCH desks 1-2 (qwen3.8-season2)"
+    },
+    {
+      "days": "weekdays",
+      "start": "11:30",
+      "end": "12:05",
+      "owner": "shane",
+      "label": "GPU desk (midday)"
+    },
+    {
+      "days": "weekdays",
+      "start": "14:30",
+      "end": "15:05",
+      "owner": "shane",
+      "label": "GPU desk (afternoon)"
+    },
+    {
+      "days": "daily",
+      "start": "20:50",
+      "end": "21:35",
+      "owner": "batch",
+      "label": "nightly index"
+    },
+    {
+      "days": "daily",
+      "start": "00:45",
+      "end": "03:30",
+      "owner": "batch",
+      "label": "BATCH night shift (gemma4:31b)"
+    }
+  ]
+}

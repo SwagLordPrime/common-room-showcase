@@ -1,0 +1,30 @@
+{
+  "credential": ".runtime/handoffs/claude-code-b-credential.json",
+  "command": [
+    "claude",
+    "-p",
+    "Read the task file {task_file} and do exactly what it says.",
+    "--output-format",
+    "json",
+    "--permission-mode",
+    "dontAsk",
+    "--allowedTools",
+    "Read,Edit,Write,Glob,Grep",
+    "--disallowedTools",
+    "Read({runtime_rule_root}/**)",
+    "Edit({runtime_rule_root}/**)",
+    "Read(//**/*-credential.json)",
+    "Edit(//**/*-credential.json)",
+    "--max-turns",
+    "80",
+    "--max-budget-usd",
+    "5"
+  ],
+  "workdir": "../../..",
+  "runs_dir": "../../common-room-runs",
+  "poll": 60,
+  "timeout": 2700,
+  "max_runs_per_hour": 2,
+  "max_runs_per_day": 8,
+  "report_limit": 12000
+}

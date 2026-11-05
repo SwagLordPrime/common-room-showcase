@@ -1,0 +1,44 @@
+{
+  "credential": ".runtime/handoffs/local-a-credential.json",
+  "model": "gemma4:31b-it-qat",
+  "ollama": "http://127.0.0.1:11434",
+  "poll": 60,
+  "timeout": 900,
+  "num_ctx": 16384,
+  "num_predict": 5000,
+  "keep_alive": 600,
+  "max_per_hour": 8,
+  "gpu_calendar": "crew/gpu-calendar.json",
+  "quiet_windows": [
+    {
+      "days": "weekdays",
+      "start": "08:20",
+      "end": "09:00",
+      "label": "BATCH desks 1-2 (qwen3.8-season2)"
+    },
+    {
+      "days": "weekdays",
+      "start": "11:30",
+      "end": "12:05",
+      "label": "GPU desk (midday)"
+    },
+    {
+      "days": "weekdays",
+      "start": "14:30",
+      "end": "15:05",
+      "label": "GPU desk (afternoon)"
+    },
+    {
+      "days": "daily",
+      "start": "20:50",
+      "end": "21:35",
+      "label": "nightly index"
+    },
+    {
+      "days": "daily",
+      "start": "00:45",
+      "end": "03:30",
+      "label": "BATCH night shift (gemma4:31b)"
+    }
+  ]
+}

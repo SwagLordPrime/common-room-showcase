@@ -1,0 +1,310 @@
+:root{
+  --bg:#050404; --surface:#140E0D; --surface-2:#1E1614; --line:#3A2E2B;
+  --text:#F4ECE6; --text-2:#B8ADAA; --text-3:#A39893; --muted:#8C8380;
+  --accent:#F2503F; --on-accent:#080404; --alert:#FF4B3E; --on-alert:#080404; --ok:#9BE58A; --warn:#FFB23F;
+  --f-head:'Oswald','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --f-kanji:'Noto Serif JP','Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;
+  --f-mono:'Share Tech Mono',ui-monospace,Consolas,'Courier New',monospace;
+}
+/* Common Room · the MyLife T4 "Emergency Broadcast" look (A7B, slice 1: look only).
+   The block above is the hub's mylife.css :root, byte for byte (DESIGN_SYSTEM_T4_2026-10-22.md wins over T4).
+   Loopback board with a strict CSP: the three fonts are the hub's own woff2 copies served by this board
+   (font-src 'self'); no image, no inline style, no web font service. Dark only. Radius 0, no shadows, no glow;
+   the only gradients are the scanlines and the hazard stripes. */
+
+@font-face{font-family:'Oswald';font-style:normal;font-weight:400 700;font-display:swap;src:url(/static/fonts/oswald-latin-var.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif JP';font-style:normal;font-weight:900;font-display:swap;src:url(/static/fonts/noto-serif-jp-900-hub-subset.woff2) format('woff2')}
+@font-face{font-family:'Share Tech Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/static/fonts/share-tech-mono-latin.woff2) format('woff2')}
+
+*,*::before,*::after{box-sizing:border-box;border-radius:0;box-shadow:none}
+[hidden]{display:none!important}
+:root{color-scheme:dark}
+
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;font-family:var(--f-head);font-weight:400;font-size:16px;line-height:1.35;color:var(--text);background:var(--bg);font-synthesis:none;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+a{color:var(--text);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
+a:hover{color:#FFFFFF}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--surface-2);border:1px solid var(--line);padding:1px 5px}
+[lang="ja"]{font-family:var(--f-kanji);font-weight:900}
+
+/* ---- type ---- */
+h1,h2,h3,h4{font-family:var(--f-head);font-weight:700;color:var(--text);text-transform:uppercase}
+h1{font-size:clamp(34px,4.6vw,42px);line-height:1;margin:10px 0 18px;letter-spacing:.01em}
+h2{font-size:26px;line-height:1.05;margin:4px 0 10px;letter-spacing:.01em}
+h3{font-size:18px;line-height:1.1;letter-spacing:.06em}
+.eyebrow{font-family:var(--f-mono);font-size:11px;line-height:13px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0}
+.muted{font-size:14px;line-height:1.45;color:var(--text-2)}
+.lede{font-size:18px;line-height:1.45;color:var(--text-2);max-width:620px}
+
+/* ---- controls (DESIGN_SYSTEM_T4 5.6 and 5.7, sized for a desk board) ---- */
+button,input,textarea,select{font:inherit;color:inherit}
+button{border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:8px 14px;min-height:40px;font-family:var(--f-head);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+button:hover{background:var(--text);border-color:var(--text);color:var(--on-accent)}
+button:disabled{opacity:.5;cursor:wait}
+.secondary{background:transparent;color:var(--accent);border-color:var(--accent)}
+.secondary:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+input,textarea,select{width:100%;min-width:0;background:var(--surface);border:0;border-bottom:2px solid var(--accent);padding:10px 12px;font-family:var(--f-head);font-size:16px}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+textarea{resize:vertical;min-height:84px}
+select{appearance:auto}
+label{display:block;font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);margin:14px 0 6px}
+form>button{margin-top:14px}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--text);outline-offset:0}
+
+/* ---- the frame: 112px masthead, hazard band, 96px channel rail (DESIGN_SYSTEM_T4 4 and 8) ---- */
+body.frame{display:grid;grid-template-columns:96px minmax(0,1fr);grid-template-rows:auto auto 1fr auto}
+body.frame>.site-header,body.frame>.hazard{grid-column:1/-1}
+body.frame>.rail{grid-column:1;grid-row:3/span 2}
+body.frame>main,body.frame>.site-footer{grid-column:2;min-width:0}
+body.frame>main{grid-row:3}body.frame>.site-footer{grid-row:4}
+
+/* CALM masthead: the app's kanji on solid accent, on-accent text. No ALERT form here. */
+.site-header{position:relative;height:112px;overflow:hidden;background:var(--accent);color:var(--on-accent);padding:10px 24px 0;display:flex;flex-direction:column}
+.site-header .strip{display:flex;justify-content:space-between;align-items:center;gap:16px;white-space:nowrap;font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-accent)}
+.site-header .strip-ch{flex:none}
+.site-header .rule{flex:none;height:2px;background:var(--on-accent);margin:6px 0 0}
+.brand{flex:1 1 auto;display:flex;align-items:center;gap:20px;min-width:0}
+.kanji-box{position:relative;flex:none;height:76px;width:196px;overflow:hidden}
+.brand .kanji{position:absolute;left:-2px;top:0;font-size:60px;line-height:1;letter-spacing:-.03em;white-space:nowrap;transform:scaleY(1.2);transform-origin:left top;color:var(--on-accent)}
+.wordmark{display:flex;flex-direction:column;min-width:0;gap:3px}
+.wordmark strong{font-family:var(--f-head);font-weight:700;font-size:26px;line-height:1;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+.wordmark small{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mode-pill{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-accent);background:transparent;border:0;padding:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+a.mode-pill{text-decoration:underline;text-decoration-color:var(--on-accent)}
+a.mode-pill:hover{color:var(--on-accent)}
+.fx-switch{margin-left:auto;flex:none;align-self:center;min-height:30px;padding:4px 10px;font-family:var(--f-mono);font-weight:400;font-size:11px;line-height:13px;letter-spacing:.12em;background:var(--on-accent);color:var(--accent);border:2px solid var(--on-accent)}
+.fx-switch:hover{background:var(--surface-2);color:var(--text);border-color:var(--on-accent)}
+.fx-switch[aria-pressed="false"]{background:transparent;color:var(--on-accent)}
+
+/* Hazard band under the masthead: 4px gap, then 16px of stripes. */
+.hazard{height:20px;border-top:4px solid var(--bg);background:repeating-linear-gradient(-45deg,var(--accent) 0 11px,var(--bg) 11px 22px);background-clip:content-box}
+
+/* Channel rail: five channels, the current one filled accent; NO LINK on channels with no address. */
+.rail{display:flex;flex-direction:column;gap:4px;padding:12px 8px;background:var(--bg);border-right:1px solid var(--line)}
+.rail .ch{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:60px;padding:6px 2px;background:var(--surface);color:var(--text);text-decoration:none;text-align:center}
+.rail .ch .n{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.08em;color:var(--accent)}
+.rail .ch .s{font-family:var(--f-head);font-weight:700;font-size:18px;line-height:1;letter-spacing:.06em}
+.rail a.ch:hover{background:var(--surface-2);color:#FFFFFF}
+.rail a.ch[aria-current="page"]{background:var(--accent);color:var(--on-accent)}
+.rail a.ch[aria-current="page"] .n{color:var(--on-accent)}
+.rail .ch.nolink{background:transparent;border:1px dashed var(--muted);color:var(--text-2)}
+.rail .ch.nolink .nl{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.04em;color:var(--muted)}
+
+main{max-width:1720px;width:100%;margin:0 auto;padding:22px 32px 10px}
+.site-footer{text-align:center;font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:18px 20px 30px}
+.footer{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin:30px 0 6px}
+
+#message{white-space:pre-wrap;background:var(--surface);border:0;border-left:4px solid var(--warn);color:var(--text);padding:10px 14px;margin:0 0 18px}
+#message:empty{display:none}
+#recover-action{margin:0 0 18px}
+
+.panel{background:var(--surface);border:0;border-left:4px solid var(--accent);padding:18px 22px;margin-bottom:22px}
+.panel h2{margin-top:6px}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+
+/* ---- the gate (signed out) ---- */
+.gate{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,440px);gap:48px;align-items:center;padding:24px 0 30px}
+.gate h1{font-size:clamp(42px,6vw,72px);line-height:.95}
+.virtues{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:8px}
+.virtues li{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 14px 0 0;background:var(--surface);border-left:4px solid var(--accent);color:var(--text);font-size:17px}
+.virtues b{flex:none;display:inline-grid;place-items:center;width:44px;height:44px;font-family:var(--f-mono);font-weight:400;font-size:13px;letter-spacing:.08em;color:var(--accent)}
+.login{padding:26px}
+.login h2{font-size:28px}
+.login button{width:100%;padding:12px;min-height:52px;font-size:20px}
+
+/* ---- workspace ---- */
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:6px 0 18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.who strong{font-family:var(--f-head);font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;padding:4px 10px 4px 0;border:1px solid transparent}
+.who strong::before{content:"";width:8px;height:8px;background:var(--ok)}
+/* Disconnected or stale view: the OFFLINE manner (dashed muted border, hollow marker), only the board's own words. */
+.who strong.stale{color:var(--text-2);border:1px dashed var(--muted);padding-left:10px}
+.who strong.stale::before{background:none;border:1px dashed var(--muted)}
+.who small{display:block;font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-top:5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions button{font-size:14px}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px;margin:0 0 24px}
+.summary:empty{display:none}
+.chip{--tone:var(--accent);display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:56px;background:var(--surface);color:var(--text);border:0;border-left:4px solid var(--tone);padding:10px 14px;font-family:var(--f-head);font-weight:400;font-size:15px;letter-spacing:0;text-transform:none}
+.chip:hover{background:var(--surface-2);color:var(--text);border-color:var(--tone)}
+.chip b{font-family:var(--f-head);font-size:32px;font-weight:700;line-height:1;color:var(--tone)}
+.chip span{font-size:14px;color:var(--text)}
+.chip small{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.06em;color:var(--text-3)}
+.chip.calm b{color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--surface-2);outline:2px solid var(--tone);outline-offset:-2px}
+.chip-decisions{--tone:var(--alert)}.chip-review{--tone:var(--warn)}.chip-working{--tone:var(--accent)}.chip-inbox{--tone:var(--text-3)}.chip-done{--tone:var(--ok)}
+
+/* how this room works: the room's own operating notes, kept in view */
+.walkthrough{display:grid;grid-template-columns:minmax(160px,230px) minmax(0,1fr);column-gap:26px;align-items:start;padding:14px 22px}
+.walkthrough>h2{grid-row:1/span 4;font-size:18px;margin:2px 0 6px}
+.walkthrough p{grid-column:2;font-size:15px;line-height:1.45;color:var(--text-2);margin:2px 0 8px;max-width:1000px}
+
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:6px 0 12px}
+.section-head h2{margin:2px 0 0}
+#filter-count,.count{font-family:var(--f-mono);font-size:12px;line-height:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);margin:0}
+
+/* the roster (participants); the sigils board.js draws stay this slice, restyled */
+#participants{margin:0 0 30px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.person{--state:var(--muted);display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:0;border-left:4px solid var(--state);padding:10px 14px;font-size:13px;overflow-wrap:anywhere}
+.person[data-state="live"]{--state:var(--ok)}
+.person[data-state="pending"]{--state:var(--warn)}
+.person[data-state="stale"]{--state:var(--alert)}
+.person .sigil{flex:none;position:relative;display:grid;place-items:center;width:40px;height:40px;font-family:var(--f-head);font-weight:700;font-size:19px;color:var(--accent);border:1px solid var(--accent);background:var(--bg)}
+.person .sigil::after{content:"";position:absolute;right:-3px;bottom:-3px;width:9px;height:9px;background:var(--state);border:2px solid var(--surface)}
+.person-text{min-width:0}
+.person .kind{display:block;font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.person strong{display:block;font-size:16px;line-height:1.2;color:var(--text);margin-top:2px}
+.person small{display:block;font-family:var(--f-mono);font-size:11px;line-height:13px;color:var(--text-3);margin-top:3px}
+.person .contact{display:block;color:var(--text-2);margin-top:5px}
+.person .contact.live{color:var(--ok)}
+.person .contact.stale{color:var(--alert)}
+.retired{margin-top:10px}
+.retired>summary{cursor:pointer;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);padding:6px 2px;width:max-content;max-width:100%}
+.retired>summary:hover{color:var(--text)}
+.retired .roster{margin-top:8px}
+.retired .person{background:transparent;border:1px dashed var(--muted)}
+
+/* filters */
+.filters{display:grid;grid-template-columns:minmax(220px,2fr) repeat(3,minmax(0,1fr)) auto;gap:12px;align-items:end;background:var(--surface);border:0;padding:14px 16px;margin:0 0 18px}
+.filters label{margin-top:0}
+.filter-buttons{display:flex;gap:8px}
+.filter-buttons button{white-space:nowrap}
+
+/* the board */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+#board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.column{--tone:var(--text-3);min-width:0;background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--tone);padding:10px 8px 4px}
+.column[data-column="Working"]{--tone:var(--accent)}
+.column[data-column="Review"]{--tone:var(--warn)}
+.column[data-column="Done"]{--tone:var(--ok)}
+.column[data-column="Owner decisions"]{--tone:var(--alert)}
+.column h2{font-size:18px;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 4px 0}
+.column h2 b{font-family:var(--f-mono);font-size:12px;font-weight:400;color:var(--on-accent);background:var(--tone);padding:1px 8px}
+.column .epithet{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:4px 4px 12px}
+.empty{font-family:var(--f-mono);color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:18px 6px 20px;margin:0}
+.card{background:var(--surface);border:0;border-left:4px solid var(--tone,var(--accent));padding:10px 12px 12px;margin-bottom:8px;overflow-wrap:anywhere;position:relative}
+.card:hover{background:var(--surface-2)}
+.card h3{font-size:17px;margin:8px 0 8px;text-transform:none;letter-spacing:.02em}
+.card p{font-size:14px;line-height:1.45;margin:7px 0;color:var(--text)}
+.card>p:first-of-type{color:var(--text-2)}
+.card small{display:block;font-family:var(--f-mono);font-size:11px;line-height:13px;color:var(--text-3);margin-top:4px}
+.card>small{display:inline-block;margin:6px 6px 0 0;padding:2px 7px;background:var(--bg);border:1px solid var(--line);color:var(--text-2);max-width:100%}
+.task-status{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-accent);background:var(--tone,var(--accent));display:inline-block;padding:2px 7px}
+.card button{padding:5px 10px;min-height:32px;font-size:13px;margin:8px 6px 0 0}
+.card details{font-size:13px;margin-top:10px;color:var(--text-2);border-top:1px dashed var(--line);padding-top:6px}
+.card summary{cursor:pointer;color:var(--text-2)}
+.card summary:hover{color:var(--text)}
+/* STOP: the DESIGN_SYSTEM_T4 alert block (alert fill, on-alert text); its ALERT label is CSS only. */
+.stop-banner{margin:0 0 14px;padding:12px 16px;border:0;background:var(--alert);color:var(--on-alert);font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.stop-banner::before{content:"ALERT";display:block;font-family:var(--f-mono);font-weight:400;font-size:11px;line-height:13px;letter-spacing:.12em;margin-bottom:4px}
+.stop-form{margin:0 0 16px;padding:12px;border:2px solid var(--alert);background:var(--surface)}
+.stop-form label{display:block;margin-bottom:6px;color:var(--text)}
+.warning{color:var(--alert);border-left:4px solid var(--alert);padding-left:9px}
+.card .warning{background:var(--bg);padding:6px 9px}
+.digest{display:block;overflow-wrap:anywhere;white-space:normal;font-size:11px;user-select:all;color:var(--text-3);background:none;border:0;padding:0}
+.receipt{border-top:1px solid var(--line);padding:6px 0}
+pre.receipt{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font-family:var(--f-mono);font-size:12px;background:var(--bg);border:1px solid var(--line);padding:10px;color:var(--text)}
+.card-form{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.card-form button{margin-top:8px}
+.card-form small{margin-top:4px}
+
+/* the sidebar */
+aside .panel{margin-bottom:18px}
+.lounge #notes{max-height:560px;overflow:auto;margin:6px -4px 0;padding:0 4px}
+.note{border-bottom:1px solid var(--line);padding:10px 0;font-size:14px;overflow-wrap:anywhere}
+.note strong{font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.note p{white-space:pre-wrap;line-height:1.45;margin:4px 0;color:var(--text)}
+.note small{font-family:var(--f-mono);font-size:11px;color:var(--text-3)}
+
+/* your decrees (plans) */
+.plans{border-left-color:var(--accent)}
+.plans h3{font-size:17px;margin:20px 0 6px}
+.plans h4{font-size:17px;margin:6px 0}
+/* ---- Needs Shane and usage (turnons panels) ---- */
+.needs{border-left-color:var(--alert)}
+.needs-empty{margin:10px 0 0;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok)}
+.needs-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.need{border:0;border-left:4px solid var(--accent);padding:10px 14px;background:var(--surface-2);overflow-wrap:anywhere}
+/* STOP and stopped in Needs Shane: the same alert block. */
+.need-stop,.need-stopped{background:var(--alert);color:var(--on-alert);border-left-color:var(--on-alert)}
+.need-stop .need-kind,.need-stopped .need-kind,.need-stop small,.need-stopped small{color:var(--on-alert)}
+.need-stop code,.need-stopped code{background:var(--on-alert);color:var(--alert);border-color:var(--on-alert)}
+.need-slow{border-left-color:var(--warn)}
+.need-kind{font-family:var(--f-mono);font-size:11px;line-height:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.need-summary{margin:4px 0 6px}
+.need-action{display:block;white-space:pre-wrap;padding:6px 8px;margin-bottom:4px}
+.need small{font-family:var(--f-mono);font-size:11px;color:var(--text-2)}
+.usage-table{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+.usage-table th,.usage-table td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.usage-table td{font-family:var(--f-mono);font-size:14px}
+.usage-table th{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);font-weight:400}
+.plan-card{background:var(--surface-2);border:0;border-left:4px solid var(--accent);padding:12px 16px;margin:12px 0;overflow-wrap:anywhere}
+.plan-card p{font-size:14px;line-height:1.45;margin:6px 0}
+.plan-card .eyebrow{margin:0;letter-spacing:.02em;text-transform:none;color:var(--text-3)}
+.plan-task{border-top:1px solid var(--line);padding:9px 0;font-size:14px}
+.plan-task strong{display:block}
+.plan-input{display:block;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;margin:4px 0}
+.plan-reserve{background:var(--bg);border:1px solid var(--line);padding:7px 10px}
+.plan-confirm{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:end}
+.plan-confirm label{grid-column:1/-1;margin-top:4px}
+.plan-confirm button{margin:0}
+.plan-confirm>div{grid-column:1/-1}
+#plans-result:not(:empty){background:var(--surface-2);border-left:4px solid var(--ok);padding:10px 14px;margin:12px 0;font-size:14px}
+
+/* public status page: the same tokens, fonts, masthead and hazard band, and no effects */
+.status-page{max-width:900px}
+.status-page h1{font-size:clamp(32px,4.4vw,42px);margin:6px 0 10px}
+#counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin:14px 0}
+#counts p{margin:0;background:var(--surface-2);border-left:4px solid var(--accent);padding:12px 14px;font-family:var(--f-mono);font-size:13px;color:var(--text-2)}
+#freshness{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+
+/* ---- effects (the hub's v3 look, kept calm for a work screen) ----
+   Only under html.fx-on, which board.js sets from the EFFECTS switch (localStorage commonroom.effects).
+   Scanlines only (the hub's grain is a data: image, which this CSP blocks: a later slice), the hazard march,
+   and a glitch on the masthead kanji. Nothing moves the layout or takes a click. /status never gets fx-on. */
+.crt{display:none}
+html.fx-on .crt{display:block;position:fixed;inset:0;z-index:50;pointer-events:none;overflow:hidden}
+html.fx-on .crt .scanl{position:absolute;inset:0;display:block;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+html.fx-on .hazard{animation:cr-march 1.6s linear infinite}
+@keyframes cr-march{from{background-position-x:0}to{background-position-x:31.11px}}
+html.fx-on .brand .kanji::before,html.fx-on .brand .kanji::after{content:attr(data-text);position:absolute;left:0;top:0;pointer-events:none;opacity:0;clip-path:inset(0 0 100% 0)}
+html.fx-on .brand .kanji::before{color:var(--text);animation:cr-glitch-a 6s steps(1) infinite}
+html.fx-on .brand .kanji::after{color:#080404;animation:cr-glitch-b 6s steps(1) infinite}
+@keyframes cr-glitch-a{0%,91.6%{opacity:0;transform:none;clip-path:inset(0 0 100% 0)}92%{opacity:1;transform:translateX(-1.2%);clip-path:inset(10% 0 72% 0)}94%{opacity:1;transform:translateX(1.6%);clip-path:inset(46% 0 38% 0)}96%{opacity:1;transform:translateX(-1%);clip-path:inset(70% 0 12% 0)}98%{opacity:1;transform:translateX(1.4%);clip-path:inset(26% 0 60% 0)}100%{opacity:0}}
+@keyframes cr-glitch-b{0%,91.6%{opacity:0;transform:none;clip-path:inset(0 0 100% 0)}93%{opacity:1;transform:translateX(1.4%);clip-path:inset(30% 0 52% 0)}95%{opacity:1;transform:translateX(-1.6%);clip-path:inset(60% 0 26% 0)}97%{opacity:1;transform:translateX(1%);clip-path:inset(4% 0 84% 0)}99%{opacity:0}}
+
+/* ---- motion: the device's reduced-motion setting stops every animation and transition ---- */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* ---- widths ---- */
+@media (max-width:1380px){.layout{grid-template-columns:1fr}aside{display:grid;grid-template-columns:1fr 1fr;gap:18px}aside .panel{margin-bottom:0}}
+@media (max-width:1180px){#board{grid-template-columns:repeat(3,minmax(0,1fr))}.filters{grid-template-columns:1fr 1fr}.filters .search{grid-column:1/-1}}
+@media (max-width:900px){.gate{grid-template-columns:1fr;gap:26px;padding-top:18px}#board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){
+ body.frame{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto 1fr auto}
+ body.frame>.rail{grid-column:1;grid-row:3;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+ body.frame>.rail .ch{flex:1 0 64px}
+ body.frame>main,body.frame>.site-footer{grid-column:1}
+ body.frame>main{grid-row:4}body.frame>.site-footer{grid-row:5}
+ .site-header{padding:10px 16px 0}
+ .kanji-box{width:130px}.brand .kanji{font-size:40px}
+ main{padding:18px 16px 6px}
+ aside{grid-template-columns:1fr}
+ .toolbar{flex-direction:column;align-items:flex-start}
+ .walkthrough{grid-template-columns:1fr}.walkthrough>h2{grid-row:auto}.walkthrough p{grid-column:1}
+ .panel{padding:16px}
+}
+@media (max-width:520px){
+ #board{grid-template-columns:1fr}
+ .filters{grid-template-columns:1fr}.filter-buttons{flex-wrap:wrap}.filter-buttons button{flex:1}
+ .summary{grid-template-columns:1fr 1fr}
+ .summary>.chip:last-child:nth-child(odd){grid-column:1/-1}
+ #participants>.roster{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:84%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;overscroll-behavior-x:contain}
+ #participants>.roster>.person{scroll-snap-align:start}
+ #roster-count::after{content:" · swipe for all"}
+ .wordmark strong{font-size:22px}
+ .lede{font-size:16px}
+ .plan-confirm{grid-template-columns:1fr}
+}

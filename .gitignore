@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.runtime/
+.checks/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite*
+
+# Exported cumulative patch is bound by external receipt, never self-included.
+common-room.patch
+
+# Shane's own phone-push settings (notify job): the ntfy topic is a secret, so the file never enters git.
+crew/notify.json
+
+# A4: the seat tier labels the switch sheet writes (crew/seat-tiers.example.json shows the shape); live config, not code.
+crew/seat-tiers.json
+
+# A3: the chat flag for claude-room and dot; absent means OFF. Only Shane's yes #4 sheet writes it (a restart window).
+crew/chat-pair.json
+
+# test-output files (core-setup baseline)
+WINDOWS_*.txt
+*_SUITE*.txt

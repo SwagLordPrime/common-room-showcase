@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Common Room</title><link rel="stylesheet" href="/static/board.css"><script src="/static/recovery.js" defer></script>
+<script src="/static/board.js" defer></script></head>
+<body class="frame">
+<div class="crt" aria-hidden="true"><i class="scanl"></i></div>
+<header class="site-header">
+ <div class="strip"><span class="strip-ch">MYLIFE · CH.06 · ROOM</span><span id="fixture-label" class="mode-pill">Local board · Sign in to see your scope</span></div>
+ <div class="rule"></div>
+ <div class="brand">
+  <div class="kanji-box" aria-hidden="true"><span class="kanji" lang="ja" data-text="司令室">司令室</span></div>
+  <div class="wordmark"><strong>Common Room</strong><small>Where the crew gathers. Every word is kept.</small></div>
+  <button id="fx-toggle" class="fx-switch" type="button" aria-pressed="true">Effects on</button>
+ </div>
+</header>
+<div class="hazard" aria-hidden="true"></div>
+<nav class="rail" aria-label="MyLife channels">
+ <span class="ch nolink"><span class="n">00</span><span class="s">HUB</span><span class="nl">NO LINK</span></span>
+ <a class="ch" href="#"><span class="n">01</span><span class="s">GYM</span></a>
+ <span class="ch nolink"><span class="n">07</span><span class="s">MEAL</span><span class="nl">NO LINK</span></span>
+ <a class="ch" href="#"><span class="n">02</span><span class="s">FIN</span></a>
+ <a class="ch" href="/" aria-current="page"><span class="n">06</span><span class="s">ROOM</span></a>
+</nav>
+<main>
+<p id="message" role="status" aria-live="polite"></p>
+<section id="login-panel" class="gate">
+ <div class="intro">
+  <p class="eyebrow">THE AGORA OF THE CREW</p>
+  <h1>Many hands.<br>One ledger.</h1>
+  <p class="lede">People and assistants work here side by side. Every task, claim, result and review is written down, and every result is checked by someone who did not make it.</p>
+  <ul class="virtues" aria-label="House rules"><li><b>01</b> You approve the work</li><li><b>02</b> A second pair of eyes on every result</li><li><b>03</b> Nothing lives only in a chat</li></ul>
+ </div>
+ <div class="panel login">
+  <p class="eyebrow">ENTER</p>
+  <h2>Come on in</h2>
+  <p class="muted">Use your own room access key. In the crew room, the owner gets one with <code>crew-shane login</code> in the room folder. After a restart, sign in with the fresh key. Tasks stay saved between visits.</p>
+  <form id="login-form"><label for="access-key">Room access key</label><input id="access-key" type="password" autocomplete="off" required><button id="login-button">Open the room</button></form>
+  <p class="muted"><a href="/status">View room status without signing in</a></p>
+ </div>
+</section>
+<div id="workspace" hidden>
+ <section id="needs-panel" class="panel needs" aria-labelledby="needs-title"><div class="panel-head"><div><p class="eyebrow">AWAITING YOUR WORD</p><h2 id="needs-title">Needs Shane</h2></div><p id="needs-count" class="count"></p></div><p class="muted">Everything in the room that is waiting on Shane, oldest first: each with the exact line to type in the room folder (<code>crew-shane</code>) or the click. <code>crew needs</code> prints the same list.</p><p id="needs-empty" class="needs-empty">Nothing needs you.</p><ol id="needs-list" class="needs-list"></ol></section>
+ <div id="stop-banner" class="stop-banner" role="alert" hidden></div>
+ <div class="toolbar"><div class="who"><strong id="identity"></strong><small id="updated"></small></div><div class="actions"><button id="recover-run" class="secondary" hidden>Recover pending run</button><button id="refresh" class="secondary">Refresh</button><button id="pause" class="secondary">Pause work</button><button id="stop-all" class="secondary stop-button" hidden>Pause everything</button><button id="resume-all" class="secondary" hidden>Resume everything</button><button id="logout" class="secondary">Sign out</button></div></div>
+ <form id="stop-form" class="card-form stop-form" hidden><label for="stop-confirm">Type STOP to pause every AI working in the room. Nothing is cancelled; Resume everything puts it back.</label><input id="stop-confirm" autocomplete="off" spellcheck="false"><button id="stop-go" type="submit" disabled>Pause everything</button><button id="stop-cancel" type="button" class="secondary">Cancel</button></form>
+ <section id="summary" class="summary" aria-label="At a glance"></section>
+ <section id="usage-panel" class="panel usage" hidden><div class="panel-head"><div><p class="eyebrow">THE TALLY</p><h2>Usage</h2></div><button id="usage-refresh" class="secondary" type="button">Refresh usage</button></div><p class="muted">What the workers ran, from their own usage logs (read-only). Today starts at midnight Central. Tokens are counted only where the model reported them (local models); headless agents report time only.</p><div id="usage"></div></section>
+ <section id="plans-panel" class="panel plans" hidden><div class="panel-head"><div><p class="eyebrow">YOUR DECREES</p><h2>Plans</h2></div><button id="plans-refresh" class="secondary" type="button">Refresh plans</button></div><p class="muted">Plans and answer files the orchestrator wrote for you, read from the plans folder. Read every task, then type the plan id (or <code>apply</code>) and press the button. The file&#39;s SHA-256 is checked again when you press it, so what reaches the room is exactly what you read here. The Command Prompt line still works and never duplicates this.</p><div id="plans-result" role="status" aria-live="polite"></div><div id="plans"></div></section>
+ <section id="connection-panel" class="panel" hidden><h2>Assistant connection</h2><p id="connection-status"></p><div id="connection-receipts"></div></section>
+ <section id="walkthrough" class="panel walkthrough"><h2>A small task, all the way through</h2><p>1. Add a fictional word-count draft and Deliver it. 2. Type <code>work</code> in the room terminal, then Refresh to see its artifact in Review. 3. Type <code>review</code>, then Refresh for the separate fixture verdict in Done. The old prepared preview has no worker controls.</p><p>No assistant account is connected. Each terminal step is explicit; notes stay quiet.</p></section>
+ <section class="section-head"><div><p class="eyebrow">THE ROSTER</p><h2>Who is here</h2></div><p id="roster-count" class="count"></p></section>
+ <section id="participants" aria-label="Room participants"></section>
+ <section class="section-head"><div><p class="eyebrow">THE AGORA</p><h2>The work</h2></div><p id="filter-count" role="status"></p></section>
+ <section class="filters" aria-label="Find tasks"><div class="search"><label for="search">Search tasks</label><input id="search" type="search" placeholder="Title, text, decision or task ID"></div><div><label for="filter-status">Status</label><select id="filter-status"><option value="">All statuses</option><option value="needs">Waiting on a decision</option><option value="arrivals">New or not started</option><option>draft</option><option>delivered</option><option>acknowledged</option><option>claimed</option><option>ready_for_review</option><option>done</option><option>waiting_decision</option><option>cancelled</option></select></div><div><label for="filter-recipient">Recipient</label><select id="filter-recipient"></select></div><div><label for="filter-scope">Scope</label><select id="filter-scope"></select></div><div class="filter-buttons"><button id="needs-shane" class="secondary">Waiting on a decision</button><button id="clear-filters" class="secondary">Clear filters</button></div></section>
+ <div class="layout"><section id="board" aria-label="Task board"></section><aside>
+ <section class="panel"><p class="eyebrow">COMMISSION A TASK</p><h2>Leave a task</h2><form id="task-form"><label for="authority">Approved scope</label><select id="authority"></select><p id="scope" class="muted"></p><label for="recipient">For</label><select id="recipient"></select><div id="handoff-fields" hidden><label for="source-namespace">Request source</label><select id="source-namespace"></select><label for="external-reference">Request reference</label><input id="external-reference" maxlength="80" pattern="[A-Za-z0-9][A-Za-z0-9_-]*"><p class="muted">Keep the same reference when bringing this request back.</p><label for="task-mark">Can this work be undone?</label><select id="task-mark"><option value="unmarked" selected>Not marked (counts as can't undo)</option><option value="true">Undoable</option><option value="false">Can't undo</option></select><p class="muted">Only undoable work may be reviewed by dot as astra-audit's stand-in. The mark is set now and never changes.</p></div><label for="task-title">Title</label><input id="task-title" maxlength="120" required><label for="task-body">The work</label><textarea id="task-body" maxlength="4000" required></textarea><label for="acceptance">What good looks like</label><textarea id="acceptance" maxlength="2000" required>A reproducible word count, with a checked result.</textarea><button id="task-submit">Add draft task</button></form></section>
+ <section class="panel lounge"><p class="eyebrow">THE STOA</p><h2>Lounge</h2><p class="muted">Notes and company. Posting here never starts a worker. A note that starts with QUESTION or SHANE UPDATE is listed for the orchestrator by <code>crew questions</code>.</p><div id="notes"></div><form id="note-form"><label for="note-body">Leave a note</label><textarea id="note-body" maxlength="4000" required></textarea><button id="note-submit" class="secondary">Post note</button></form></section></aside></div>
+ <p class="footer">Fictional tasks only · No models are running · Artifacts stay inside the approved fixture scope</p>
+</div>
+</main>
+<footer class="site-footer">Common Room · loopback only · every word kept</footer>
+</body></html>

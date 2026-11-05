@@ -1,0 +1,19 @@
+{
+ "review_standins": [
+  {
+   "actor": "dot",
+   "authority": "orchestra",
+   "builders": [
+    "claude-code",
+    "claude-code-b",
+    "claude-room",
+    "ferrule"
+   ],
+   "markers": [
+    "claude-room"
+   ],
+   "stands_for": "astra-audit"
+  }
+ ],
+ "version": 1
+}

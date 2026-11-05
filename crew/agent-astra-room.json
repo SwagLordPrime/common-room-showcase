@@ -1,0 +1,22 @@
+{
+  "credential": ".runtime/handoffs/astra-room-credential.json",
+  "command": [
+    "codex",
+    "exec",
+    "--cd",
+    "{run_dir}",
+    "--sandbox",
+    "workspace-write",
+    "--skip-git-repo-check",
+    "-o",
+    "{run_dir}/codex-last-message.txt",
+    "Read the task file {task_file} and do exactly what it says."
+  ],
+  "workdir": "../../..",
+  "runs_dir": "../../common-room-runs",
+  "poll": 60,
+  "timeout": 2700,
+  "max_runs_per_hour": 2,
+  "max_runs_per_day": 8,
+  "report_limit": 12000
+}
