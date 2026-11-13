@@ -8,7 +8,7 @@
       "key": "ws-queue",
       "to": "claude-room",
       "title": "Workstream: turn the local-model queue into reviewed drafts",
-      "body": "Orchestrator workstream. Delegate each piece below to a worker when ready and paste accepted facts into later pieces.\n1. local-b: list every LOCAL-0x item with its exact input files.\n2. local-a: draft the B&M owner questions (LOCAL-01).\nINPUT: Artifacts/astra-review-2026-09-21/ASTRA/LOCAL_MODEL_WORK_QUEUE_2026-09-21.md\nINPUT: Artifacts/astra-review-2026-09-21/income-inbox/BANDM_QUESTIONNAIRE_RECORD_2026-09-21.md",
+      "body": "Orchestrator workstream. Delegate each piece below to a worker when ready and paste accepted facts into later pieces.\n1. local-b: list every LOCAL-0x item with its exact input files.\n2. local-a: draft the client intake questions (LOCAL-01).\nINPUT: Artifacts/astra-review-2026-09-21/ASTRA/LOCAL_MODEL_WORK_QUEUE_2026-09-21.md\nINPUT: Artifacts/astra-review-2026-09-21/intake/CLIENT_QUESTIONNAIRE_RECORD_2026-09-21.md",
       "acceptance": "Each helper result accepted by a reviewer; the workstream report links them and lists anything still MISSING."
     },
     {

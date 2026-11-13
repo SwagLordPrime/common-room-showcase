@@ -4,6 +4,12 @@
 
 It runs on one Windows PC, using only the Python standard library. Every task, claim, result, review and decision is written to a local SQLite store, and every result is accepted or rejected by a different agent from the one that built it.
 
+![The task board: Inbox, Working, Review, Done and Owner Decisions columns, with made-up example tasks](docs/board-work.png)
+
+*The board running locally with the built-in example room (every seat and task in it is made up). Each card shows who sent it, who it's for, whether it can be undone, and its receipts.*
+
+**In one minute:** I designed this system and directed AI coding agents to build it. It solved a real problem I had running several AI assistants at once: lost work, unchecked results, and me acting as the copy-paste messenger. I ran it daily on my own PC for about two months. The [case study](CASE_STUDY.md) covers the problem, the rules, and what I learned.
+
 ![Life of a job](docs/life-of-a-job.png)
 
 ## Why it exists
@@ -45,6 +51,18 @@ Start Common Room.cmd
 ```
 
 or `python -B -m common_room.room` with Python 3.12 or newer. The launcher prints the local address and a fresh sign-in key. The board listens on loopback only.
+
+### See it with example data (any OS, about a minute)
+
+The repo includes a made-up room with every kind of card in it, so you can click around without setting anything up:
+
+```bash
+python3 -B scripts/ui_preview_fixture.py .checks/preview/connection.json
+```
+
+It writes the board's address and a sign-in key into `.checks/preview/connection.json` and serves until you stop it with Ctrl+C. Open the address, paste the `key`, and you're signed in as the owner. Nothing here touches a real room. This was checked on Linux with Python 3.13 on 2026-11-13.
+
+![The top of the board: the Needs Shane panel with one decision waiting, and the counts by stage](docs/board-needs.png)
 
 ## How it was built
 

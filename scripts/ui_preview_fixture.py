@@ -88,6 +88,7 @@ def main(connection):
                        'body': 'Orchestrator reserve for follow-ups.', 'acceptance': 'Every helper under it accepted or cancelled.', 'reserve': True}]}
     (plan_dir / 'PLAN.json').write_text(json.dumps(plan, indent=2), encoding='utf-8')
 
+    Path(connection).parent.mkdir(parents=True, exist_ok=True)
     Path(connection).write_text(json.dumps({'origin': room.server.origin, 'key': room.credentials['keeper']['token'],
                                             'reviewer_key': room.credentials['tinker']['token']}), encoding='utf-8')
     try:
